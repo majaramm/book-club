@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Club Wrapped 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            overflow: hidden;
+            background: #000;
+            color: #191919;
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(100%);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide.previous {
+            transform: translateY(-100%);
+        }
+
+        .slide-0 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .slide-1 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .slide-2 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .slide-3 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .slide-4 { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+        .slide-5 { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
+        .slide-6 { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+        .slide-7 { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); }
+        .slide-8 { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
+        .slide-9 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .slide-10 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .slide-11 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .slide-12 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+
+        h1 {
+            font-size: 3.5em;
+            font-weight: 800;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .big-stat {
+            font-size: 8em;
+            font-weight: 900;
+            line-height: 1;
+            margin: 30px 0;
+            animation: scaleIn 0.8s ease-out 0.4s both;
+        }
+
+        .stat-label {
+            font-size: 1.8em;
+            opacity: 0.95;
+            animation: fadeInUp 0.8s ease-out 0.6s both;
+        }
+
+        .genre-list {
+            list-style: none;
+            margin: 30px 0;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+            max-width: 800px;
+        }
+
+        .genre-list li {
+            font-size: 1.8em;
+            margin: 12px 10px;
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            display: inline-block;
+        }
+
+        .book-with-cover {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+            flex-wrap: wrap;
+        }
+
+        .book-cover {
+            width: 200px;
+            height: 300px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 100%);
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            font-size: 1.2em;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        .book-info {
+            text-align: left;
+            max-width: 400px;
+        }
+
+        .book-title-large {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .book-author {
+            font-size: 1.5em;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .stars {
+            font-size: 2em;
+            color: #FFD700;
+            margin: 10px 0;
+        }
+
+        .rating-number {
+            font-size: 1.3em;
+            opacity: 0.95;
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            max-width: 900px;
+            margin: 30px auto;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+            padding: 0 20px;
+        }
+
+        .book-card {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .book-card-cover {
+            width: 140px;
+            height: 210px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 100%);
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 15px;
+            font-size: 0.85em;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        .book-card-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .book-card-author {
+            opacity: 0.8;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .book-card-stars {
+            color: #FFD700;
+            font-size: 1.2em;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-dot.active {
+            background: #fff;
+            width: 30px;
+            border-radius: 6px;
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9em;
+            opacity: 0.7;
+        }
+
+        button {
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 1em;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+            margin: 0 10px;
+        }
+
+        button:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .achievement {
+            font-size: 4em;
+            margin: 20px 0;
+            animation: scaleIn 0.8s ease-out 0.3s both;
+        }
+
+        .meeting-stat {
+            font-size: 1.5em;
+            opacity: 0.95;
+            margin: 10px 0;
+            animation: fadeInUp 0.8s ease-out 0.5s both;
+        }
+        /* Individual ratings styles */
+        .ratings-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            max-width: 1000px;
+        }
+
+        .person-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+        }
+
+        .person-column.animate {
+            animation: fadeInUp 1s ease-out forwards;
+        }
+
+        .person-column:nth-child(1) { animation-delay: 0.5s; }
+        .person-column:nth-child(2) { animation-delay: 1.5s; }
+        .person-column:nth-child(3) { animation-delay: 2s; }
+        .person-column:nth-child(4) { animation-delay: 2.5s; }
+
+        .person-name {
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 15px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .person-ratings {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            opacity: 0;
+        }
+
+        .person-ratings.animate {
+            animation: fadeInUp 1s ease-out forwards;
+        }
+
+        .person-column:nth-child(1) .person-ratings { animation-delay: 1s; }
+        .person-column:nth-child(2) .person-ratings { animation-delay: 1.5s; }
+        .person-column:nth-child(3) .person-ratings { animation-delay: 2s; }
+        .person-column:nth-child(4) .person-ratings { animation-delay: 2.5s; }
+
+        .rating-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0px 5px;
+            border-radius: 20px;
+            font-size: 1.4em;
+            backdrop-filter: blur(10px);
+        }
+
+        .person-average {
+            margin-top: 0px;
+            font-size: 1.4em;
+            font-weight: 700;
+            padding: 0px 0px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Bar chart styles */
+        .chart-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 40px auto 0;
+            opacity: 0;
+        }
+
+        .chart-container.animate {
+            animation: fadeInUp 3s ease-out 4s forwards;
+        }
+
+        .chart-bars {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            height: 300px;
+            gap: 30px;
+            padding: 0 20px;
+        }
+
+        .bar-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .bar {
+            width: 100%;
+            max-width: 120px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.2) 100%);
+            border-radius: 15px 15px 0 0;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 15px;
+            font-size: 1.8em;
+            font-weight: 700;
+            transition: all 0.5s ease-out;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .bar.highest {
+            background: linear-gradient(180deg, #FFD700 0%, #FFA500 100%);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.4);
+        }
+
+        .bar.lowest {
+            background: linear-gradient(180deg, rgba(150,150,150,0.5) 0%, rgba(100,100,100,0.3) 100%);
+        }
+
+        .bar-label {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .chart-title {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            opacity: 0.95;
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Slide 0: Welcome -->
+        <div class="slide active slide-0">
+            <h1>📚 Your Book Club Wrapped</h1>
+            <div class="subtitle">2025 Reading Journey: Book Clubby Edition</div>
+            <button onclick="nextSlide()" style="margin-top: 40px; font-size: 1.2em; padding: 15px 40px;">Let's Go!</button>
+        </div>
+
+        <!-- Slide 1: Meeting Stats -->
+        <div class="slide slide-1">
+            <h1>Your Year Together</h1>
+            <div class="subtitle">Our first meeting was January 30th, 2025</div>
+            <div class="big-stat">21</div>
+            <div class="stat-label">times we met together</div>
+            <div class="meeting-stat">That's nearly twice a month!</div>
+        </div>
+
+        <!-- Slide 2: Total Books -->
+        <div class="slide slide-2">
+            <h1>This Year You Read...</h1>
+            <div class="big-stat">12</div>
+            <div class="stat-label">books together!</div>
+            <div class="meeting-stat">An average of 1 book per month</div>
+        </div>
+
+        <!-- Slide 3: Top Genres -->
+        <div class="slide slide-3">
+            <h1>Your Top Genres</h1>
+            <ul class="genre-list">
+                <li>📖 Thriller / Mystery</li>
+                <li>💭 Literary Fiction</li>
+                <li>🎭 Contemporary Fiction</li>
+                <li>🌟 Fantasy</li>
+            </ul>
+        </div>
+
+        <!-- Slide 4: Longest Book -->
+        <div class="slide slide-4">
+            <h1>Your Longest Read</h1>
+            <div class="book-with-cover">
+                <img src="https://lh3.googleusercontent.com/d/10uGTjtrXKRY6dwwwkeQ8jjka3vnXhea-" alt="Babel" class="book-cover" style="width: 200px; height: 300px; object-fit: cover;">
+                <div class="book-info">
+                    <div class="book-title-large">Babel</div>
+                    <div class="book-author">R.F. Kuang</div>
+                    <div class="big-stat" style="font-size: 4em;">545</div>
+                    <div class="stat-label" style="font-size: 1.3em;">pages</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Shortest Book -->
+        <div class="slide slide-5">
+            <h1>Your Quickest Read</h1>
+            <div class="book-with-cover">
+                <img src="https://lh3.googleusercontent.com/d/1MRm-BYdq8nslIYEth-cwqdQ0hjxkeeNI" alt="The Seven Year Slip" class="book-cover" style="width: 200px; height: 300px; object-fit: cover;">
+                <div class="book-info">
+                    <div class="book-title-large">The Seven Year Slip</div>
+                    <div class="book-author">Ashley Poston</div>
+                    <div class="big-stat" style="font-size: 4em;">~320</div>
+                    <div class="stat-label" style="font-size: 1.3em;">pages (estimated)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Top Rated Books -->
+        <div class="slide slide-6">
+            <h1>🌟 Your Highest Rated Books</h1>
+            <div class="subtitle">You gave these books top marks!</div>
+            <div class="books-grid" style="grid-template-columns: repeat(4, 1fr); max-width: 1000px;">
+                <div class="book-card">
+                    <img src="https://lh3.googleusercontent.com/d/1-uxm7rOSxYbWYWPK91s5fIaV1LBohwqy" alt="Interview with the Vampire" class="book-cover" style="width: 200px; height: 300px; object-fit: cover;">
+                    <div class="book-card-title">Interview With the Vampire</div>
+                    <div class="book-card-author">Anne Rice</div>
+                    <div class="book-card-stars">★★★½</div>
+                    <div class="rating-number">3.5 / 5</div>
+                </div>
+                <div class="book-card">
+                    <img src="https://lh3.googleusercontent.com/d/15-1JljDuyz1Tk1s6WDdGb-t5qeoQ6zIb" alt="My Sweet Audrina" class="book-cover" style="width: 200px; height: 300px; object-fit: cover;">
+                    <div class="book-card-title">My Sweet Audrina</div>
+                    <div class="book-card-author">V.C. Andrews</div>
+                    <div class="book-card-stars">★★★½</div>
+                    <div class="rating-number">3.5 / 5</div>
+                </div>
+                <div class="book-card">
+                    <img src="https://lh3.googleusercontent.com/d/1t4EQ5d-9d67hRyX5t17Jn5Qk2511Bn2D" alt="We Used to Live Here" class="book-cover" style="width: 200px; height: 300px; object-fit: cover;">
+                    <div class="book-card-title">We Used to Live Here</div>
+                    <div class="book-card-author">Marcus Kliewer</div>
+                    <div class="book-card-stars">★★★</div>
+                    <div class="rating-number">3.125 / 5</div>
+                </div>
+                <div class="book-card">
+                    <img src="https://lh3.googleusercontent.com/d/19Rbz70TWNtu6XPubIYUdevt7qnIvYV40" alt="Down the Drain" class="book-cover" style="width: 200px; height: 300px; object-fit: cover;">
+                    <div class="book-card-title">Down the Drain</div>
+                    <div class="book-card-author">Julia Fox</div>
+                    <div class="book-card-stars">★★★</div>
+                    <div class="rating-number">3 / 5</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: All Books Summary -->
+        <div class="slide slide-7">
+            <h1 style="font-size: 2.5em; margin-bottom: 10px;">📖 All Your 2025 Reads</h1>
+            <div class="books-grid" style="max-width: 1100px; grid-template-columns: repeat(4, 1fr); gap: 10px;">
+                <div class="book-card" style="padding: 10px;">
+                    <img src="https://lh3.googleusercontent.com/d/1I2_mBAGIN4M6mLrIwyeoEr0rwmhxlBDh" alt="Lock Every Door" class="book-cover" style="width: 100px; height: 150px; padding: 10px; object-fit: cover;">
+                    <div class="book-card-title" style="font-size: 0.95em;">Lock Every Door</div>
+                    <div class="book-card-author" style="font-size: 0.8em;">Riley Sager</div>
+                    <div class="book-card-stars" style="font-size: 1em;">★★</div>
+                    <div class="rating-number" style="font-size: 0.85em;">2.375 / 5</div>
+                </div>
+                <div class="book-card" style="padding: 15px;">
+                    <img src="https://lh3.googleusercontent.com/d/10uGTjtrXKRY6dwwwkeQ8jjka3vnXhea-" alt="Babel" class="book-cover" style="width: 100px; height: 150px; padding: 10px; object-fit: cover;">
+                    <div class="book-card-title" style="font-size: 0.95em;">Babel</div>
+                    <div class="book-card-author" style="font-size: 0.8em;">R.F. Kuang</div>
+                    <div class="book-card-stars" style="font-size: 1em;">★★</div>
+                    <div class="rating-number" style="font-size: 0.85em;">2.125 / 5</div>
+                </div>
+                <div class="book-card" style="padding: 15px;">
+                    <img src="https://lh3.googleusercontent.com/d/1aQXL8GmScw8QSRHsICG54GK8sBR7SOUY" alt="Vera Wong's Advice" class="book-cover" style="width: 100px; height: 150px; padding: 10px; object-fit: cover;">
+                    <div class="book-card-title" style="font-size: 0.95em;">Vera Wong's Advice</div>
+                    <div class="book-card-author" style="font-size: 0.8em;">Jesse Q. Sutanto</div>
+                    <div class="book-card-stars" style="font-size: 1em;">★</div>
+                    <div class="rating-number" style="font-size: 0.85em;">1.75 / 5</div>
+                </div>
+                <div class="book-card" style="padding: 15px;">
+                    <img src="https://lh3.googleusercontent.com/d/1ycDG2sQNLIv_ifsCD-macfhe5_2lR0Ml" alt="BELOVED" class="book-cover" style="width: 100px; height: 150px; font-size: 0.7em; padding: 10px; object-fit: cover;">
+                    <div class="book-card-title" style="font-size: 0.95em;">Beloved</div>
+                    <div class="book-card-author" style="font-size: 0.8em;">Toni Morrison</div>
+                    <div class="book-card-stars" style="font-size: 1em;">★★</div>
+                    <div class="rating-number" style="font-size: 0.85em;">2.4375 / 5</div>
+                </div>
+                <div class="book-card" style="padding: 15px;">
+                    <img src="https://lh3.googleusercontent.com/d/1MRm-BYdq8nslIYEth-cwqdQ0hjxkeeNI" alt="The Seven Year Slip" class="book-cover" style="width: 100px; height: 150px; font-size: 0.7em; padding: 10px; object-fit: cover;">
+                    <div class="book-card-title" style="font-size: 0.95em;">The Seven Year Slip</div>
+                    <div class="book-card-author" style="font-size: 0.8em;">Ashley Poston</div>
+                    <div class="book-card-stars" style="font-size: 1em;">★★</div>
+                    <div class="rating-number" style="font-size: 0.85em;">2 / 5</div>
+                </div>
+                <div class="book-card" style="padding: 15px;">
+                    <img src="https://lh3.googleusercontent.com/d/15-1JljDuyz1Tk1s6WDdGb-t5qeoQ6zIb" alt="My Sweet Audrina" class="book-cover" style="width: 100px; height: 150px; font-size: 0.7em; padding: 10px; object-fit: cover;">
+                    <div class="book-card-title" style="font-size: 0.95em;">My Sweet Audrina</div>
+                    <div class="book-card-author" style="font-size: 0.8em;">V.C. Andrews</div>
+                    <div class="book-card-stars" style="font-size: 1em;">★★★½</div>
+                    <div class="rating-number" style="font-size: 0.85em;">3.5 / 5</div>
+                </div>
+                <div class="book-card" style="padding: 15px;">
+                    <img src="https://lh3.googleusercontent.com/d/19Rbz70TWNtu6XPubIYUdevt7qnIvYV40" alt="DOWN THE DRAIN" class="book-cover" style="width: 100px; height: 150px; font-size: 0.7em; padding: 10px; object-fit: cover;">
+                    <div class="book-card-title" style="font-size: 0.95em;">Down the Drain</div>
+                    <div class="book-card-author" style="font-size: 0.8em;">Julia Fox</div>
+                    <div class="book-card-stars" style="font-size: 1em;">★★★</div>
+                    <div class="rating-number" style="font-size: 0.85em;">3 / 5</div>
+                </div>
+                <div class="book-card" style="padding: 15px;">
+                    <img src="https://lh3.googleusercontent.com/d/1OEW5xT5GLRQ4vqnc7UzmL0O1FTYNPFJP" alt="Still Born" class="book-cover" style="width: 100px; height: 150px; font-size: 0.7em; padding: 10px; object-fit: cover;">
+                    <div class="book-card-title" style="font-size: 0.95em;">Still Born</div>
+                    <div class="book-card-author" style="font-size: 0.8em;">Guadalupe Nettel</div>
+                    <div class="book-card-stars" style="font-size: 1em;">★★★</div>
+                    <div class="rating-number" style="font-size: 0.85em;">2.9375 / 5</div>
+                </div>
+                <div class="book-card" style="padding: 15px;">
+                    <img src="https://lh3.googleusercontent.com/d/1-uxm7rOSxYbWYWPK91s5fIaV1LBohwqy" alt="Interview with the vampire" class="book-cover" style="width: 100px; height: 150px; font-size: 0.7em; padding: 10px; object-fit: cover;">
+                    <div class="book-card-title" style="font-size: 0.95em;">Interview With the Vampire</div>
+                    <div class="book-card-author" style="font-size: 0.8em;">Anne Rice</div>
+                    <div class="book-card-stars" style="font-size: 1em;">★★★½</div>
+                    <div class="rating-number" style="font-size: 0.85em;">3.5 / 5</div>
+                </div>
+                <div class="book-card" style="padding: 15px;">
+                    <img src="https://lh3.googleusercontent.com/d/1H0bvgyIA-Y6uuNK0pMSqcr3KB8Kejzw2" alt="Your Story" class="book-cover" style="width: 100px; height: 150px; font-size: 0.7em; padding: 10px; object-fit: cover;">
+                    <div class="book-card-title" style="font-size: 0.95em;">Your Story</div>
+                    <div class="book-card-author" style="font-size: 0.8em;">By Sugaru Miaki</div>
+                    <div class="book-card-stars" style="font-size: 1em;">★★½</div>
+                    <div class="rating-number" style="font-size: 0.85em;">2.5 / 5</div>
+                </div>
+                <div class="book-card" style="padding: 15px;">
+                    <img src="https://lh3.googleusercontent.com/d/1t4EQ5d-9d67hRyX5t17Jn5Qk2511Bn2D" alt="We used to live here" class="book-cover" style="width: 100px; height: 150px; font-size: 0.7em; padding: 10px; object-fit: cover;">
+                    <div class="book-card-title" style="font-size: 0.95em;">We Used to Live Here</div>
+                    <div class="book-card-author" style="font-size: 0.8em;">Marcus Kliewer</div>
+                    <div class="book-card-stars" style="font-size: 1em;">★★★</div>
+                    <div class="rating-number" style="font-size: 0.85em;">3.125 / 5</div>
+                </div>
+                <div class="book-card" style="padding: 15px;">
+                    <img src="https://lh3.googleusercontent.com/d/1k_mnzcL8_p8Z7OuB3phwQYfma64iL5mC" alt="12 ways to kill" class="book-cover" style="width: 100px; height: 150px; font-size: 0.7em; padding: 10px; object-fit: cover;">
+                    <div class="book-card-title" style="font-size: 0.95em;">12 Ways to Kill Your Family at Christmas</div>
+                    <div class="book-card-author" style="font-size: 0.8em;">Natasha Bache</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Reading Streak -->
+        <div class="slide slide-8">
+            <h1>Consistency Champions</h1>
+            <div class="big-stat">12</div>
+            <div class="stat-label">consecutive months</div>
+            <div class="achievement">🔥</div>
+            <div class="meeting-stat">You read together every single month!</div>
+        </div>
+
+        <!-- Slide 9: Club Average Rating -->
+        <div class="slide slide-9">
+            <h1>Your Club's Average Rating</h1>
+            <div class="big-stat" style="font-size: 6em;">2.73</div>
+            <div class="stat-label">out of 5 stars</div>
+            <div class="stars" style="font-size: 4em; margin-top: 20px;">★★★</div>
+            <div class="meeting-stat">You're thoughtful critics!</div>
+        </div>
+
+       <!-- Slide 10: Individual Ratings -->
+        <div class="slide slide-10" id="individual-ratings-slide">
+            <h1>Average Ratings Per Person</h1>
+            <div class="ratings-container">
+                <div class="person-column">
+                    <div class="person-name">Maja</div>
+                    <div class="person-ratings">
+                        <div class="rating-item">3</div>
+                        <div class="rating-item">1.5</div>
+                        <div class="rating-item">3</div>
+                        <div class="rating-item">1.5</div>
+                        <div class="rating-item">3.5</div>
+                        <div class="rating-item">3</div>
+                        <div class="rating-item">3</div>
+                        <div class="rating-item">4</div>
+                        <div class="rating-item">3</div>
+                        <div class="rating-item">3.5</div>
+                        <div class="person-average">Avg: 2.9</div>
+                    </div>
+                </div>
+
+                <div class="person-column">
+                    <div class="person-name">Phouvana</div>
+                    <div class="person-ratings">
+                        <div class="rating-item">2</div>
+                        <div class="rating-item">2</div>
+                        <div class="rating-item">3</div>
+                        <div class="rating-item">2.5</div>
+                        <div class="rating-item">3</div>
+                        <div class="rating-item">3</div>
+                        <div class="rating-item">4</div>
+                        <div class="rating-item">3</div>
+                        <div class="rating-item">3</div>
+                        <div class="rating-item">2.5</div>
+                        <div class="person-average">Avg: 2.8</div>
+                    </div>
+                </div>
+
+                <div class="person-column">
+                    <div class="person-name">Nina</div>
+                    <div class="person-ratings">
+                        <div class="rating-item">2.5</div>
+                        <div class="rating-item">1</div>
+                        <div class="rating-item">3</div>
+                        <div class="rating-item">2</div>
+                        <div class="rating-item">4</div>
+                        <div class="rating-item">2.5</div>
+                        <div class="rating-item">2.5</div>
+                        <div class="rating-item">3</div>
+                        <div class="rating-item">2</div>
+                        <div class="rating-item">3</div>
+                        <div class="person-average">Avg: 2.55</div>
+                    </div>
+                </div>
+
+                <div class="person-column">
+                    <div class="person-name">Bronte</div>
+                    <div class="person-ratings">
+                        <div class="rating-item">1</div>
+                        <div class="rating-item">2.5</div>
+                        <div class="rating-item">1.75</div>
+                        <div class="rating-item">2</div>
+                        <div class="rating-item">3.5</div>
+                        <div class="rating-item">3.5</div>
+                        <div class="rating-item">2.25</div>
+                        <div class="rating-item">3</div>
+                        <div class="rating-item">2</div>
+                        <div class="rating-item">3.5</div>
+                        <div class="person-average">Avg: 2.5</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">Who's the Toughest Critic? 🎯</div>
+                <div class="chart-bars">
+                    <div class="bar-wrapper">
+                        <div class="bar highest" style="height: 232px;">2.9</div>
+                        <div class="bar-label">Maja<br>👑 Most Generous</div>
+                    </div>
+                    <div class="bar-wrapper">
+                        <div class="bar" style="height: 224px;">2.8</div>
+                        <div class="bar-label">Phouvana</div>
+                    </div>
+                    <div class="bar-wrapper">
+                        <div class="bar" style="height: 204px;">2.55</div>
+                        <div class="bar-label">Nina</div>
+                    </div>
+                    <div class="bar-wrapper">
+                        <div class="bar lowest" style="height: 200px;">2.5</div>
+                        <div class="bar-label">Bronte<br>🔍 Toughest Critic</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Total Pages -->
+        <div class="slide slide-11">
+            <h1>Pages Turned</h1>
+            <div class="big-stat">~4,500</div>
+            <div class="stat-label">pages read together</div>
+            <div class="meeting-stat">That's like reading 15 average novels!</div>
+        </div>
+
+        <!-- Slide 12: Final -->
+        <div class="slide slide-12">
+            <h1>🎉 What a Year!</h1>
+            <div class="subtitle">21 meetings, 12 books, countless memories</div>
+            <div class="achievement">📚✨</div>
+            <div class="meeting-stat">Here's to many more books in 2026!</div>
+            <button onclick="currentSlide = 0; updateSlides()" style="margin-top: 40px;">Replay</button>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation" id="navigation"></div>
+        <div class="controls">
+            <button onclick="prevSlide()">← Back</button>
+            <button onclick="nextSlide()">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const totalSlides = document.querySelectorAll('.slide').length;
+
+        // Create navigation dots
+        const navigation = document.getElementById('navigation');
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+            dot.onclick = () => goToSlide(i);
+            navigation.appendChild(dot);
+        }
+
+        function updateSlides() {
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.nav-dot');
+            
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active', 'previous');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                // Trigger animations for individual ratings slide
+                    if (index === 10) {
+                        setTimeout(() => {
+                            const columns = slide.querySelectorAll('.person-column');
+                            const ratings = slide.querySelectorAll('.person-ratings');
+                            const chart = slide.querySelector('.chart-container');
+                            
+                            columns.forEach(col => col.classList.add('animate'));
+                            ratings.forEach(rat => rat.classList.add('animate'));
+                            if (chart) chart.classList.add('animate');
+                        }, 100);
+                    }   
+                } else if (index < currentSlide) {
+                    slide.classList.add('previous');
+                }
+            });
+
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlides();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlides();
+            }
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSlides();
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        // Touch/swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) nextSlide();
+            if (touchEndX > touchStartX + 50) prevSlide();
+        }
+    </script>
+</body>
+</html>
